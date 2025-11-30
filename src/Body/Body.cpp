@@ -381,6 +381,14 @@ namespace Body {
 
         std::optional<Preset> a_preset = std::nullopt;
 
+        auto& jsonParser{Parser::JSONParser::GetInstance()};
+        a_preset = jsonParser.GetRefitPresetFromEquippedItems(a_actor, isFemale);
+
+        if (a_preset) {
+            ApplySliderSet(a_actor, a_preset->sliders, "OClothe");
+            return;
+        }
+
         const auto a_presetName = ActorTracker::Registry::GetInstance().GetPresetNameForActor(a_actor, isFemale);
         if (a_presetName) {
             const std::string refitPresetName = *a_presetName + "-Refit";
